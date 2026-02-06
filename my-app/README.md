@@ -1,73 +1,39 @@
-# React + TypeScript + Vite
+Title: Домашнее задание 1
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Description (описание):
 
-Currently, two official plugins are available:
+### Что было реализовано
+Создано начальное React приложение на TypeScript с использованием Vite. Реализована отрисовка списка постов с передачей данных через props между компонентами в соответствии с методологией FSD.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Структура проекта (FSD)
 
-## React Compiler
+src/
+├── app/ # App.tsx
+├── entities/ # Бизнес-сущности (PostCard, типы постов)
+│ └── post/
+│ ├── ui/PostCard.tsx
+│ └── types/types.ts
+├── widgets/ # Самостоятельные виджеты
+│ ├── LayoutHeader/Header.tsx
+│ ├── LayoutFooter/Footer.tsx
+│ └── PostList/PostList.tsx
+├── shared/ # Переиспользуемые ресурсы
+│ ├── layouts/MainLayout.tsx
+│ └── api/posts.ts (моковые данные)
+└── index.css
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Основные компоненты
+App.tsx - корневой компонент
 
-## Expanding the ESLint configuration
+MainLayout.tsx - макет с Header, Footer
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+PostList.tsx - список постов (принимает posts через props)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+PostCard.tsx - карточка поста (принимает post через props)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Передача данных через props
+PostList получает массив постов через пропс posts
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+PostCard получает объект поста через пропс post
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Используются TypeScript интерфейсы для типизации пропсов
