@@ -7,21 +7,6 @@ Description:
 
 ### Структура проекта (FSD)
 
-src/
-├── app/ # App.tsx
-├── entities/ # Бизнес-сущности (PostCard, типы постов)
-│ └── post/
-│ ├── ui/PostCard.tsx
-│ └── types/types.ts
-├── widgets/ # Самостоятельные виджеты
-│ ├── LayoutHeader/Header.tsx
-│ ├── LayoutFooter/Footer.tsx
-│ └── PostList/PostList.tsx
-├── shared/ # Переиспользуемые ресурсы
-│ ├── layouts/MainLayout.tsx
-│ └── api/posts.ts (моковые данные)
-└── index.css
-
 Основные компоненты
 App.tsx - корневой компонент
 
