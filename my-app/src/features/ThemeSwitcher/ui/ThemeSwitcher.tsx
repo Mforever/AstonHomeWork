@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "../../../shared/lib/theme/useTheme";
+import { useTheme } from "../../../shared/lib/theme/ThemeContext";
 import { Button } from "../../../shared/ui/Button/Button";
 
 export const ThemeSwitcher: React.FC = () => {

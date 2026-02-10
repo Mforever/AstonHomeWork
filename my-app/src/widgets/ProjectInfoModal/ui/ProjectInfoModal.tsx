@@ -1,41 +1,52 @@
-import React, { useState } from "react";
-import { ThemeSwitcher } from "../../features/ThemeSwitcher/ui/ThemeSwitcher";
-import { Button } from "../../shared/ui/Button/Button";
-import { ProjectInfoModal } from "../../widgets/ProjectInfoModal/ui/ProjectInfoModal";
+import React from "react";
+import { Modal } from "../../../shared/ui/Modal/Modal";
+import { Button } from "../../../shared/ui/Button/Button";
 
-export const Header: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+interface ProjectInfoModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
+export const ProjectInfoModal: React.FC<ProjectInfoModalProps> = ({
+  isOpen,
+  onClose,
+}) => {
   return (
-    <>
-      <header className="header">
-        <div className="header-left">
-          <h1>React Blog</h1>
-        </div>
-        <nav className="header-nav">
-          <a href="#">Главная</a>
-          <a href="#">Посты</a>
-          <a href="#">О нас</a>
-        </nav>
-        <div className="header-actions">
-          <Button onClick={handleOpenModal} variant="secondary" size="small">
-            О проекте
-          </Button>
-          <ThemeSwitcher />
-        </div>
-      </header>
+    <Modal isOpen={isOpen} onClose={onClose} title="О проекте">
+      <div className="project-info">
+        <h4>React Blog App</h4>
+        <p>
+          Это учебное приложение, созданное в рамках курса по React и
+          TypeScript. Проект демонстрирует современные подходы к разработке
+          React-приложений.
+        </p>
 
-      <ProjectInfoModal isOpen={isModalOpen} onClose={handleCloseModal} />
-    </>
+        <h5>Основные возможности:</h5>
+        <ul>
+          <li>📝 Отображение списка постов</li>
+          <li>🎨 Переключение светлой/тёмной темы</li>
+          <li>🪟 Модальные окна через React Portal</li>
+          <li>🧩 Компонентный подход (FSD архитектура)</li>
+          <li>⚡ Быстрая загрузка благодаря Vite</li>
+        </ul>
+
+        <h5>Используемые технологии:</h5>
+        <div className="tech-stack">
+          {["React", "TypeScript", "Vite", "CSS Modules", "FSD"].map(
+            (tech, index) => (
+              <span key={index} className="tech-tag">
+                {tech}
+              </span>
+            ),
+          )}
+        </div>
+
+        <div className="modal-footer">
+          <Button onClick={onClose} variant="primary">
+            Закрыть
+          </Button>
+        </div>
+      </div>
+    </Modal>
   );
 };
-
-export default Header;

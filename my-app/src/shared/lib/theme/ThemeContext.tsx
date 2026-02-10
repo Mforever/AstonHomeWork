@@ -21,11 +21,9 @@ interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Проверяем сохранённую тему или системные настройки
     const savedTheme = localStorage.getItem("theme") as Theme;
     if (savedTheme) return savedTheme;
 
-    // Проверяем системные предпочтения
     if (
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -37,13 +35,9 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    // Сохраняем тему в localStorage
     localStorage.setItem("theme", theme);
-
-    // Применяем тему к документу
     document.documentElement.setAttribute("data-theme", theme);
 
-    // Обновляем meta-тег для мобильных устройств
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
       metaThemeColor.setAttribute(
@@ -62,4 +56,13 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       {children}
     </ThemeContext.Provider>
   );
+};
+
+// Создаём хук здесь же для простоты
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
 };
