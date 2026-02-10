@@ -1,12 +1,15 @@
 import React from "react";
-import MainLayout from "../shared/layouts/MainLayout";
-import PostList from "../widgets/PostList/PostList";
+import { ThemeProvider } from "./shared/lib/theme/ThemeContext";
+import MainLayout from "./shared/layouts/MainLayout";
+import PostList from "./widgets/PostList/PostList";
 
 const App: React.FC = () => {
   return (
-    <MainLayout>
-      <PostList />
-    </MainLayout>
+    <ThemeProvider>
+      <MainLayout>
+        <PostList />
+      </MainLayout>
+    </ThemeProvider>
   );
 };
 
