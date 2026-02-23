@@ -1,0 +1,62 @@
+.button {
+  font-family: inherit;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Варианты */
+.primary {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--button-primary-hover);
+}
+
+.secondary {
+  background-color: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: var(--button-secondary-hover);
+}
+
+.outline {
+  background-color: transparent;
+  color: var(--button-outline-text);
+  border: 2px solid var(--button-outline-border);
+}
+
+.outline:hover:not(:disabled) {
+  background-color: var(--button-outline-hover);
+}
+
+/* Размеры */
+.small {
+  padding: 6px 12px;
+  font-size: 0.875rem;
+}
+
+.medium {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.large {
+  padding: 14px 28px;
+  font-size: 1.125rem;
+}
