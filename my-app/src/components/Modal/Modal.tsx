@@ -1,86 +1,48 @@
-import React, { memo, useEffect, useCallback } from 'react';
-import { Post } from '../../types';
-import { CommentList } from '../CommentList/CommentList';
-import { getCommentsByPostId } from '../../data/mockData';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './Modal.css';
 
 interface ModalProps {
   isOpen: boolean;
-  post: Post | null;
+  post: any;
   expandedComments: Set<number>;
   onClose: () => void;
-  onToggleComment: (commentId: number) => void;
+  onToggleComment: (id: number) => void;
 }
 
-export const Modal = memo(({
+export const Modal: React.FC<ModalProps> = ({
   isOpen,
   post,
-  expandedComments,
   onClose,
-  onToggleComment,
-}: ModalProps) => {
-  console.log('🪟 Рендер модального окна');
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = 'unset';
-      };
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
-
-  const handleOverlayClick = useCallback((e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  }, [onClose]);
-
-  const handleContentClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-  }, []);
-
+}) => {
   if (!isOpen || !post) return null;
 
-  const postComments = getCommentsByPostId(post.id);
+  const modalRoot = document.getElementById('modal-root');
+  if (!modalRoot) return null;
 
-  return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className="modal-content" onClick={handleContentClick}>
+  return ReactDOM.createPortal(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{post.title}</h2>
-          <button className="modal-close-btn" onClick={onClose}>
-            ✕
-          </button>
+          <button className="modal-close-btn" onClick={onClose}>×</button>
         </div>
 
         <div className="modal-body">
           <p>{post.body}</p>
-          <CommentList
-            comments={postComments}
-            expandedComments={expandedComments}
-            onToggleComment={onToggleComment}
-          />
+          <div className="modal-meta">
+            <span>Post ID: {post.id}</span>
+            <span>User ID: {post.userId}</span>
+          </div>
         </div>
 
         <div className="modal-footer">
-          <button className="btn btn-primary" onClick={onClose}>
+          <button className="modal-close-footer-btn" onClick={onClose}>
             Закрыть
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    modalRoot
   );
-});
-
-Modal.displayName = 'Modal';
+};

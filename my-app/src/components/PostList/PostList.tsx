@@ -1,56 +1,45 @@
-import React, { memo, useCallback } from 'react';
-import { Post } from '../../types';
-import { PostCard } from '../PostCard/PostCard';
+import React from 'react';
+import './PostList.css';
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
 
 interface PostListProps {
-  posts: readonly Post[];
+  posts: Post[];
   loading: boolean;
   onPostClick: (post: Post) => void;
 }
 
-export const PostList = memo(({ posts, loading, onPostClick }: PostListProps) => {
-  console.log('📋 Рендер списка постов');
-
-  const handlePostClick = useCallback(
-    (post: Post) => {
-      onPostClick(post);
-    },
-    [onPostClick]
-  );
-
+export const PostList: React.FC<PostListProps> = ({ posts, loading, onPostClick }) => {
   if (loading) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <div className="loading-text">
-          Загружаем посты<span className="loading-dots"></span>
-        </div>
       </div>
     );
   }
 
-  if (posts.length === 0) {
-    return (
-      <div className="no-results">
-        <span className="no-results-icon">🔍</span>
-        <h3>Посты не найдены</h3>
-        <p>Попробуйте изменить параметры фильтра</p>
-      </div>
-    );
-  }
+  const handleClick = (post: Post) => {
+    console.log('Post clicked:', post.id);
+    onPostClick(post);
+  };
 
   return (
     <div className="posts-grid">
-      {posts.map((post, index) => (
-        <PostCard
+      {posts.map(post => (
+        <div
           key={post.id}
-          post={post}
-          index={index}
-          onClick={handlePostClick}
-        />
+          className="post-card"
+          onClick={() => handleClick(post)}
+        >
+          <h3 className="post-title">{post.title}</h3>
+          <p className="post-excerpt">{post.body.substring(0, 100)}...</p>
+          <span className="post-read-more">Читать далее →</span>
+        </div>
       ))}
     </div>
   );
-});
-
-PostList.displayName = 'PostList';
+};
