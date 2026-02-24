@@ -1,0 +1,53 @@
+.user-posts-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.user-posts-page h1 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.posts-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  margin-top: 20px;
+}
+
+.post-card {
+  text-decoration: none;
+  color: inherit;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  border-color: #6366f1;
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.3);
+}
+
+.post-card h3 {
+  color: white;
+  margin: 0;
+}
+
+.post-card p {
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.read-more {
+  color: #6366f1;
+  font-size: 14px;
+  align-self: flex-end;
+}

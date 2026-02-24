@@ -1,0 +1,43 @@
+cat > src/pages/NotFoundPage/NotFoundPage.css << 'EOF'
+.not-found-page {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.not-found-page h1 {
+  font-size: 72px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.not-found-page h2 {
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.not-found-page p {
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+}
+
+.home-link {
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  padding: 12px 24px;
+  border-radius: 4px;
+  transition: transform 0.3s;
+}
+
+.home-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+EOF

@@ -1,77 +1,31 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AppProvider } from './context/AppContext';
+import { PostsPage } from './pages/PostsPage/PostsPage';
+import { PostDetailsPage } from './pages/PostDetailsPage/PostDetailsPage';
+import { UserAlbumsPage } from './pages/UserAlbumsPage/UserAlbumsPage';
+import { AlbumPhotosPage } from './pages/AlbumPhotosPage/AlbumPhotosPage';
+import { UserTodosPage } from './pages/UserTodosPage/UserTodosPage';
+import { UserPostsPage } from './pages/UserPostsPage/UserPostsPage';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 import './App.css';
 import './index.css';
-import './shared/ui/Modal/Modal.css';
-import './widgets/CommentList/ui/CommentList.css';
-
-import { AppProvider, useApp } from './context/AppContext';
-import { Header } from './components/Header/Header';
-import { Stats } from './components/Stats/Stats';
-import { Filter } from './components/Filter/Filter';
-import { PostList } from './components/PostList/PostList';
-import { Modal } from './components/Modal/Modal';
-
-const AppContent: React.FC = () => {
-  const {
-    posts,
-    filterMin,
-    filterMax,
-    filteredPosts,
-    handleMinChange,
-    handleMaxChange,
-    handleReset,
-    totalPosts,
-    avgTitleLength,
-    totalComments,
-    expandedComments,
-    toggleComment,
-    isModalOpen,
-    selectedPost,
-    openModal,
-    closeModal,
-  } = useApp();
-
-  return (
-    <div className="app">
-      <Header posts={posts} />
-
-      <Stats
-        totalPosts={totalPosts}
-        avgTitleLength={avgTitleLength}
-        totalComments={totalComments}
-        allPostsCount={posts.length}
-      />
-
-      <Filter
-        filterMin={filterMin}
-        filterMax={filterMax}
-        onMinChange={handleMinChange}
-        onMaxChange={handleMaxChange}
-        onReset={handleReset}
-        posts={posts}
-      />
-
-      <PostList
-        posts={filteredPosts}
-        loading={false}
-        onPostClick={openModal}
-      />
-
-      <Modal
-        isOpen={isModalOpen}
-        post={selectedPost}
-        expandedComments={expandedComments}
-        onClose={closeModal}
-        onToggleComment={toggleComment}
-      />
-    </div>
-  );
-};
 
 function App() {
   return (
     <AppProvider>
-      <AppContent />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/posts" replace />} />
+          <Route path="/posts" element={<PostsPage />} />
+          <Route path="/posts/:id" element={<PostDetailsPage />} />
+          <Route path="/users/:id/posts" element={<UserPostsPage />} />
+          <Route path="/users/:id/albums" element={<UserAlbumsPage />} />
+          <Route path="/users/:id/todos" element={<UserTodosPage />} />
+          <Route path="/albums/:id/photos" element={<AlbumPhotosPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
     </AppProvider>
   );
 }

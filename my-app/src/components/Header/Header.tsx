@@ -1,30 +1,17 @@
-import React, { memo } from 'react';
-import { Post } from '../../types';
+import React from 'react';
+import './Header.css';
 
 interface HeaderProps {
-  posts: readonly Post[];
+  posts: any[];
 }
 
-export const Header = memo(({ posts }: HeaderProps) => {
-  console.log('🏠 Рендер шапки');
-
-  const totalComments = posts.reduce((acc, p) => acc + p.commentsCount, 0);
-
+export const Header: React.FC<HeaderProps> = ({ posts }) => {
   return (
     <header className="app-header">
-      <h1>React Mastery</h1>
+      <h1 className="gradient-text">🚀 React Mastery</h1>
       <div className="header-stats">
-        <div className="header-stat">
-          <span className="header-stat-label">Постов</span>
-          <span className="header-stat-value">{posts.length}</span>
-        </div>
-        <div className="header-stat">
-          <span className="header-stat-label">Комментариев</span>
-          <span className="header-stat-value">{totalComments}</span>
-        </div>
+        <span>Постов: {posts.length}</span>
       </div>
     </header>
   );
-});
-
-Header.displayName = 'Header';
+};

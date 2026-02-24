@@ -1,0 +1,49 @@
+cat > src/pages/UserAlbumsPage/UserAlbumsPage.css << 'EOF'
+.user-albums-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.user-albums-page h1 {
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+.albums-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  margin-top: 20px;
+}
+
+.album-card {
+  text-decoration: none;
+  color: inherit;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.album-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-color: var(--primary-500);
+}
+
+.album-card h3 {
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.view-photos {
+  color: var(--primary-500);
+  font-weight: 500;
+  margin-top: auto;
+}
+EOF
