@@ -18,12 +18,13 @@ export const PostList: React.FC<PostListProps> = ({ posts, loading, onPostClick 
     return (
       <div className="loading-container">
         <div className="spinner"></div>
+        <p>Загрузка постов...</p>
       </div>
     );
   }
 
   const handleClick = (post: Post) => {
-    console.log('Post clicked:', post.id);
+    console.log('Пост выбран:', post.id);
     onPostClick(post);
   };
 

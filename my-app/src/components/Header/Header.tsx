@@ -10,7 +10,7 @@ export const Header: React.FC<HeaderProps> = ({ posts }) => {
     <header className="app-header">
       <h1 className="gradient-text">🚀 React Mastery</h1>
       <div className="header-stats">
-        <span>Постов: {posts.length}</span>
+        <span>Всего постов: {posts.length}</span>
       </div>
     </header>
   );

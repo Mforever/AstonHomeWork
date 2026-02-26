@@ -1,36 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useGetAlbumsByUserIdQuery } from '../../entities/album/api/albumsApi';
 import { UserTabs } from '../../widgets/UserTabs/UserTabs';
 import './UserAlbumsPage.css';
-
-interface Album {
-  id: number;
-  userId: number;
-  title: string;
-}
 
 export const UserAlbumsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const userId = parseInt(id || '0');
-  const [albums, setAlbums] = useState<Album[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/users/${userId}/albums`)
-      .then(res => res.json())
-      .then(data => {
-        setAlbums(data);
-        setLoading(false);
-      });
-  }, [userId]);
+  const { data: albums = [], isLoading } = useGetAlbumsByUserIdQuery(userId);
 
-  if (loading) {
-    return <div className="loading-container">Loading...</div>;
+  if (isLoading) {
+    return <div className="loading-container">Загрузка альбомов...</div>;
   }
 
   return (
     <div className="user-albums-page">
-      <h1>User #{userId} Albums</h1>
+      <h1>Альбомы пользователя #{userId}</h1>
 
       <UserTabs userId={userId} activeTab="albums" />
 
@@ -42,7 +28,7 @@ export const UserAlbumsPage: React.FC = () => {
             className="album-card"
           >
             <h3>{album.title}</h3>
-            <span className="view-photos">View Photos →</span>
+            <span className="view-photos">Смотреть фото →</span>
           </Link>
         ))}
       </div>

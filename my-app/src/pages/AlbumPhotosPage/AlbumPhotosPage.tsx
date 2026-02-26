@@ -1,39 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useGetPhotosByAlbumIdQuery } from '../../entities/photo/api/photosApi';
 import './AlbumPhotosPage.css';
-
-interface Photo {
-  id: number;
-  albumId: number;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-}
 
 export const AlbumPhotosPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const albumId = parseInt(id || '0');
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/albums/${albumId}/photos`)
-      .then(res => res.json())
-      .then(data => {
-        setPhotos(data);
-        setLoading(false);
-      });
-  }, [albumId]);
+  const { data: photos = [], isLoading } = useGetPhotosByAlbumIdQuery(albumId);
 
-  if (loading) {
-    return <div className="loading-container">Loading...</div>;
+  if (isLoading) {
+    return <div className="loading-container">Загрузка фотографий...</div>;
   }
 
   return (
     <div className="album-photos-page">
-      <Link to={`/users/1/albums`} className="back-link">← Back to Albums</Link>
+      <Link to={`/users/1/albums`} className="back-link">← Назад к альбомам</Link>
 
-      <h1>Album #{albumId} Photos</h1>
+      <h1>Фото альбома #{albumId}</h1>
 
       <div className="photos-grid">
         {photos.map(photo => (
