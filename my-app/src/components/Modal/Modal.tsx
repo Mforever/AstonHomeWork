@@ -31,8 +31,8 @@ export const Modal: React.FC<ModalProps> = ({
         <div className="modal-body">
           <p>{post.body}</p>
           <div className="modal-meta">
-            <span>Post ID: {post.id}</span>
-            <span>User ID: {post.userId}</span>
+            <span>ID поста: {post.id}</span>
+            <span>ID пользователя: {post.userId}</span>
           </div>
         </div>
 

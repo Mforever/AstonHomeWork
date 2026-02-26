@@ -1,63 +1,89 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useGetPostByIdQuery } from '../../entities/post/api/postsApi';
+import { useGetCommentsByPostIdQuery } from '../../entities/comment/api/commentsApi';
 import './PostDetailsPage.css';
-
-interface Post {
-  id: number;
-  userId: number;
-  title: string;
-  body: string;
-}
 
 export const PostDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [post, setPost] = useState<Post | null>(null);
-  const [loading, setLoading] = useState(true);
+  const postId = parseInt(id || '0');
+  const [expandedComments, setExpandedComments] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setPost(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error:', err);
-        setLoading(false);
-      });
-  }, [id]);
+  // RTK Query хуки
+  const { data: post, isLoading: postLoading } = useGetPostByIdQuery(postId);
+  const { data: comments = [], isLoading: commentsLoading } = useGetCommentsByPostIdQuery(postId, {
+    skip: !postId,
+  });
 
-  if (loading) {
-    return <div className="loading-container">Loading...</div>;
+  const toggleComment = (commentId: number) => {
+    setExpandedComments(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(commentId)) {
+        newSet.delete(commentId);
+      } else {
+        newSet.add(commentId);
+      }
+      return newSet;
+    });
+  };
+
+  if (postLoading) {
+    return <div className="loading-container">Загрузка...</div>;
   }
 
   if (!post) {
     return (
       <div className="error-container">
-        <h2>Post not found</h2>
-        <Link to="/posts">Back to Posts</Link>
+        <h2>Пост не найден</h2>
+        <Link to="/posts">Вернуться к постам</Link>
       </div>
     );
   }
 
   return (
     <div className="post-details-page">
-      <Link to="/posts" className="back-link">← Back to Posts</Link>
+      <Link to="/posts" className="back-link">← Назад к постам</Link>
 
       <article className="post-details">
         <h1>{post.title}</h1>
         <p className="post-body">{post.body}</p>
 
         <div className="post-meta">
-          <p>Post ID: {post.id}</p>
-          <p>User ID: {post.userId}</p>
+          <p>ID поста: {post.id}</p>
+          <p>ID пользователя: {post.userId}</p>
         </div>
 
         <div className="user-links">
-          <Link to={`/users/${post.userId}/posts`}>📝 User Posts</Link>
-          <Link to={`/users/${post.userId}/albums`}>🖼️ User Albums</Link>
-          <Link to={`/users/${post.userId}/todos`}>✅ User Todos</Link>
+          <Link to={`/users/${post.userId}/posts`}>📝 Посты пользователя</Link>
+          <Link to={`/users/${post.userId}/albums`}>🖼️ Альбомы пользователя</Link>
+          <Link to={`/users/${post.userId}/todos`}>✅ Задачи пользователя</Link>
         </div>
+
+        <section className="comments-section">
+          <h2>Комментарии ({comments.length})</h2>
+          {commentsLoading ? (
+            <div>Загрузка комментариев...</div>
+          ) : (
+            <div className="comments-list">
+              {comments.map(comment => (
+                <div key={comment.id} className="comment-card">
+                  <div
+                    className="comment-header"
+                    onClick={() => toggleComment(comment.id)}
+                  >
+                    <strong>{comment.name}</strong>
+                    <span className="comment-email">{comment.email}</span>
+                  </div>
+                  {expandedComments.has(comment.id) && (
+                    <div className="comment-body">
+                      <p>{comment.body}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       </article>
     </div>
   );

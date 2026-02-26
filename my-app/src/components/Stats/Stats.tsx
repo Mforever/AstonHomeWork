@@ -22,7 +22,7 @@ export const Stats: React.FC<StatsProps> = ({
       </div>
       <div className="stat-card">
         <div className="stat-value">{avgTitleLength}</div>
-        <div className="stat-label">ср. длина</div>
+        <div className="stat-label">средняя длина</div>
       </div>
       <div className="stat-card">
         <div className="stat-value">{totalComments}</div>
